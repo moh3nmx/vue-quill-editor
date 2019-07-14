@@ -87,6 +87,7 @@ var quillDirective = function quillDirective(globalOptions) {
           }
           eventEmit(vnode, 'input', html);
           eventEmit(vnode, 'change', { text: text, html: html, quill: quill });
+          eventEmit(vnode, 'textChange', { delta: delta, oldDelta: oldDelta, source: source });
         });
 
         eventEmit(vnode, 'ready', quill);
