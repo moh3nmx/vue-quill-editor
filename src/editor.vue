@@ -1,5 +1,6 @@
 <template>
   <div class="quill-editor">
+    <input type="file" id="getFile" accept="image/x-png,image/gif,image/jpeg" @change="imageHandler($event)"  style="display: none;"/>
     <slot name="toolbar"></slot>
     <div ref="editor"></div>
   </div>
@@ -9,6 +10,7 @@
   // require sources
   import _Quill from 'quill'
   import defaultOptions from './options'
+  import axios from 'axios'
   const Quill = window.Quill || _Quill
 
   // pollfill
@@ -118,7 +120,46 @@
 
           // Emit ready event
           this.$emit('ready', this.quill)
+          this.modules.handlers = {
+            'image': this.addImageHandler(this.quill)
+          }
+
         }
+      },
+      methods: {
+        addImageHandler(editor) {
+          console.log(editor)
+          this.quill = editor
+          editor.getModule('toolbar').addHandler('image', function () {
+            document.getElementById('getFile').click()
+          });
+        },
+        imageHandler(e) {
+          const form = new FormData()
+          form.append('image', e.target.files[0])
+          // console.log(image); // Always true
+          // console.log(callback); // Always undefined
+
+          console.log(e.target.files[0])
+          console.log(form)
+
+          // Should get image in here somehow..
+          // console.log(form)
+
+          // Send image to server,
+          //  Server will return link to image
+          axios.defaults.withCredentials = true
+          axios.post(this.uploadURL, form, this.options)
+                  .then(function(cbData) {
+                    console.log(cbData)
+                    this.quill.insertEmbed(0, 'image', 'https://ed808.com/' + cbData.data.fileUrl);
+                    // In here should add image tag to editor somehow..
+
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+        },
       }
     },
     watch: {
