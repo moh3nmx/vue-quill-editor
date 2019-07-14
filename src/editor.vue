@@ -110,7 +110,7 @@
             const text = this.quill.getText()
             if (html === '<p><br></p>') html = ''
             this._content = html
-            this.$emit('text-change', { delta, oldDelta, source })
+            this.$emit('textChange', { delta, oldDelta, source })
             this.$emit('input', this._content)
             this.$emit('change', { html, text, quill })
           })

@@ -109,6 +109,7 @@ const quillDirective = globalOptions => {
           }
           eventEmit(vnode, 'input', html)
           eventEmit(vnode, 'change', { text, html, quill })
+          eventEmit(vnode, 'textChange', { delta, oldDelta, source })
         })
 
         // Emit ready event
