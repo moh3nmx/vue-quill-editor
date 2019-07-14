@@ -120,10 +120,9 @@
 
           // Emit ready event
           this.$emit('ready', this.quill)
-          this.quill.getModule('toolbar').addHandler('image', function () {
-            document.getElementById('getFile').click()
-          });
-
+          this.options.modules.handlers = {
+            'image': document.getElementById('getFile').click()
+          }
         }
       },
       methods: {
@@ -142,10 +141,10 @@
           // Send image to server,
           //  Server will return link to image
           axios.defaults.withCredentials = true
-          axios.post(this.uploadURL, form, this.options)
+          axios.post(this.options.uploadURL, form, this.options.options)
                   .then(function(cbData) {
                     console.log(cbData)
-                    this.quill.insertEmbed(0, 'image', 'https://ed808.com/' + cbData.data.fileUrl);
+                    this.quill.container.insertEmbed(0, 'image', 'https://ed808.com/' + cbData.data.fileUrl);
                     // In here should add image tag to editor somehow..
 
                   })
