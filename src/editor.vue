@@ -108,9 +108,10 @@
             let html = this.$refs.editor.children[0].innerHTML
             const quill = this.quill
             const text = this.quill.getText()
+            const content = this.quill.getContents()
             if (html === '<p><br></p>') html = ''
             this._content = html
-            this.$emit('textChange', { delta, oldDelta, source })
+            this.$emit('textChange', { delta, oldDelta, source, content })
             this.$emit('input', this._content)
             this.$emit('change', { html, text, quill })
           })
