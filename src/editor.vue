@@ -120,20 +120,13 @@
 
           // Emit ready event
           this.$emit('ready', this.quill)
-          this.modules.handlers = {
-            'image': this.addImageHandler(this.quill)
-          }
+          this.quill.getModule('toolbar').addHandler('image', function () {
+            document.getElementById('getFile').click()
+          });
 
         }
       },
       methods: {
-        addImageHandler(editor) {
-          console.log(editor)
-          this.quill = editor
-          editor.getModule('toolbar').addHandler('image', function () {
-            document.getElementById('getFile').click()
-          });
-        },
         imageHandler(e) {
           const form = new FormData()
           form.append('image', e.target.files[0])
