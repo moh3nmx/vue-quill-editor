@@ -120,39 +120,8 @@
 
           // Emit ready event
           this.$emit('ready', this.quill)
-          this.options.modules.handlers = {
-            'image': document.getElementById('getFile').click()
-          }
         }
       },
-      methods: {
-        imageHandler(e) {
-          const form = new FormData()
-          form.append('image', e.target.files[0])
-          // console.log(image); // Always true
-          // console.log(callback); // Always undefined
-
-          console.log(e.target.files[0])
-          console.log(form)
-
-          // Should get image in here somehow..
-          // console.log(form)
-
-          // Send image to server,
-          //  Server will return link to image
-          axios.defaults.withCredentials = true
-          axios.post(this.options.uploadURL, form, this.options.options)
-                  .then(function(cbData) {
-                    console.log(cbData)
-                    this.quill.container.insertEmbed(0, 'image', 'https://ed808.com/' + cbData.data.fileUrl);
-                    // In here should add image tag to editor somehow..
-
-                  })
-                  .catch(function (error) {
-                    console.log(error);
-                  });
-        },
-      }
     },
     watch: {
       // Watch content change
